@@ -36,7 +36,7 @@ db.run(
 
 // === CRUD-REITIT ===
 
-// 1. Hae kaikki käyttäjät (READ)
+// 1. Hae kaikki käyttäjät (READ) curl http://localhost:3000/users
 app.get("/users", (req, res) => {
     db.all("SELECT * FROM users", [], (err, rows) => {
         if (err) {
@@ -47,7 +47,7 @@ app.get("/users", (req, res) => {
     });
 });
 
-// 2. Lisää uusi käyttäjä (CREATE)
+// 2. Lisää uusi käyttäjä (CREATE) curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d '{"name": "Matti", "email": "matti@example.com", "age": 30}'
 app.post("/users", (req, res) => {
     const { name, email, age } = req.body;
     if (!name || !email || !age) {
@@ -68,7 +68,8 @@ app.post("/users", (req, res) => {
     );
 });
 
-// 3. Päivitä käyttäjän tiedot (UPDATE)
+// 3. Päivitä käyttäjän tiedot (UPDATE) curl -X PUT http://localhost:3000/users/1 -H "Content-Type: application/json" -d '{"name": "Matti Muokattu", "email": "matti@example.com", "age": 31}'
+
 app.put("/users/:id", (req, res) => {
     const { name, email, age } = req.body;
     const { id } = req.params;
@@ -86,7 +87,7 @@ app.put("/users/:id", (req, res) => {
     );
 });
 
-// 4. Poista käyttäjä (DELETE)
+// 4. Poista käyttäjä (DELETE) curl -X DELETE http://localhost:3000/users/1
 app.delete("/users/:id", (req, res) => {
     const { id } = req.params;
     db.run("DELETE FROM users WHERE id = ?", id, function (err) {
